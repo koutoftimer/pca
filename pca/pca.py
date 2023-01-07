@@ -587,7 +587,8 @@ class pca():
                 legend=True,
                 figsize=(20, 15),
                 visible=True,
-                verbose=3):
+                verbose=3,
+                fixed_colors=None):
         """Scatter 2d plot.
 
         Parameters
@@ -662,6 +663,8 @@ class pca():
         if cmap is None:
             # Hide the scatterpoints by making them all white.
             getcolors = np.repeat([1., 1., 1.], len(y), axis=0).reshape(-1, 3)
+        elif fixed_colors is not None:
+            getcolors = np.vstack(y.apply(fixed_colors.get))
         else:
             # Figure properties
             xyz, _ = scatterd._preprocessing(xs, ys, zs, y)
@@ -756,7 +759,8 @@ class pca():
                legend=True,
                figsize=(15, 10),
                visible=True,
-               verbose=3):
+               verbose=3,
+               fixed_colors=None):
         """Create the Biplot.
 
         Description
@@ -859,7 +863,7 @@ class pca():
             # zs = self.results['PC'].iloc[:,2].values
             fig, ax = self.scatter3d(y=y, label=label, legend=legend, PC=PC, SPE=SPE, hotellingt2=hotellingt2, cmap=cmap, visible=visible, figsize=figsize, alpha_transparency=alpha_transparency, title=title, gradient=gradient)
         else:
-            fig, ax = self.scatter(y=y, label=label, legend=legend, PC=PC, SPE=SPE, hotellingt2=hotellingt2, cmap=cmap, visible=visible, figsize=figsize, alpha_transparency=alpha_transparency, title=title, gradient=gradient)
+            fig, ax = self.scatter(y=y, label=label, legend=legend, PC=PC, SPE=SPE, hotellingt2=hotellingt2, cmap=cmap, visible=visible, figsize=figsize, alpha_transparency=alpha_transparency, title=title, gradient=gradient, fixed_colors=fixed_colors)
 
         # For vizualization purposes we will keep only the unique feature-names
         topfeat = topfeat.drop_duplicates(subset=['feature'])
